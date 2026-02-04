@@ -1,0 +1,1477 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Công Tráng & Thanh Trà - Wedding Invitation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Cormorant Garamond", serif;
+        background-color: #facbbe;
+        color: #333;
+        overflow-x: hidden;
+      }
+
+      :root {
+        --primary: #b62026;
+        --secondary: #e9d83a;
+        --bg: #facbbe;
+        --grey: #808080;
+        --white: #fff;
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background: linear-gradient(
+          135deg,
+          #facbbe 0%,
+          #f8b4a8 50%,
+          #facbbe 100%
+        );
+        position: relative;
+        padding: 40px 20px;
+      }
+
+      .hero-photo {
+        width: 280px;
+        height: 280px;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center top;
+        border: 5px solid var(--primary);
+        box-shadow: 0 10px 40px rgba(182, 32, 38, 0.25);
+        margin-bottom: 20px;
+        opacity: 0;
+        animation: fadeIn 1.2s ease forwards 0.2s;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b62026' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        pointer-events: none;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .wedding-label {
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        color: var(--primary);
+        margin-bottom: 20px;
+        opacity: 0;
+        animation: fadeInUp 1s ease forwards 0.3s;
+      }
+
+      .couple-names {
+        font-family: "Great Vibes", cursive;
+        font-size: 4rem;
+        color: var(--primary);
+        margin: 20px 0;
+        line-height: 1.3;
+        opacity: 0;
+        animation: fadeInUp 1s ease forwards 0.6s;
+      }
+
+      .couple-names .amp {
+        display: block;
+        font-size: 2.5rem;
+        color: var(--secondary);
+        margin: 5px 0;
+      }
+
+      .wedding-date {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        color: var(--primary);
+        letter-spacing: 4px;
+        margin-top: 20px;
+        opacity: 0;
+        animation: fadeInUp 1s ease forwards 0.9s;
+      }
+
+      .wedding-date-detail {
+        font-size: 1rem;
+        color: var(--grey);
+        margin-top: 10px;
+        opacity: 0;
+        animation: fadeInUp 1s ease forwards 1.2s;
+      }
+
+      .heart-divider {
+        margin: 30px auto;
+        font-size: 1.5rem;
+        color: var(--primary);
+        opacity: 0;
+        animation: fadeInUp 1s ease forwards 1s;
+      }
+
+      .heart-divider i {
+        animation: heartbeat 1.5s ease-in-out infinite;
+      }
+
+      .scroll-hint {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--primary);
+        opacity: 0;
+        animation: fadeInUp 1s ease forwards 1.5s;
+      }
+
+      .scroll-hint i {
+        animation: bounce 2s infinite;
+      }
+
+      /* Decorative Elements */
+      .floral-top,
+      .floral-bottom {
+        width: 200px;
+        height: 80px;
+        margin: 0 auto;
+        opacity: 0;
+        animation: fadeIn 1.5s ease forwards 0.5s;
+      }
+
+      .floral-divider {
+        text-align: center;
+        margin: 10px 0 30px;
+        color: var(--primary);
+        font-size: 1.8rem;
+        opacity: 0.6;
+      }
+
+      .floral-divider::before,
+      .floral-divider::after {
+        content: "—— ";
+        font-size: 1rem;
+        vertical-align: middle;
+      }
+
+      .floral-divider::after {
+        content: " ——";
+      }
+
+      /* Section Styles */
+      .section {
+        padding: 60px 20px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        font-family: "Great Vibes", cursive;
+        font-size: 2.8rem;
+        color: var(--primary);
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .section-subtitle {
+        font-family: "Playfair Display", serif;
+        font-size: 0.9rem;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        text-align: center;
+        color: var(--grey);
+        margin-bottom: 40px;
+      }
+
+      /* About Section */
+      .about-section {
+        background: var(--bg);
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: start;
+      }
+
+      .person-card {
+        text-align: center;
+        position: relative;
+      }
+
+      .person-photo-wrapper {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        margin: 0 auto 20px;
+      }
+
+      .person-photo {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center top;
+        border: 4px solid var(--primary);
+        background: #e8a89c;
+        overflow: hidden;
+      }
+
+      .person-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+      }
+
+      .tape {
+        position: absolute;
+        width: 60px;
+        height: 20px;
+        background: rgba(233, 216, 58, 0.7);
+        transform: rotate(-30deg);
+        top: -5px;
+        left: 20px;
+        border-radius: 2px;
+      }
+
+      .tape-right {
+        transform: rotate(30deg);
+        left: auto;
+        right: 20px;
+      }
+
+      .person-role {
+        font-family: "Playfair Display", serif;
+        font-size: 0.85rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--grey);
+        margin-bottom: 5px;
+      }
+
+      .person-name {
+        font-family: "Great Vibes", cursive;
+        font-size: 2.2rem;
+        color: var(--primary);
+        margin-bottom: 10px;
+      }
+
+      .person-info {
+        font-size: 1rem;
+        color: #555;
+        line-height: 1.8;
+      }
+
+      /* Love Story */
+      .love-story {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 60px 30px;
+        margin: 0 20px;
+        box-shadow: 0 10px 40px rgba(182, 32, 38, 0.1);
+      }
+
+      .timeline {
+        position: relative;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(
+          to bottom,
+          var(--primary),
+          var(--secondary)
+        );
+      }
+
+      .timeline-item {
+        position: relative;
+        padding: 20px 0;
+        display: flex;
+        align-items: flex-start;
+      }
+
+      .timeline-item:nth-child(odd) {
+        flex-direction: row;
+        padding-right: calc(50% + 30px);
+        text-align: right;
+      }
+
+      .timeline-item:nth-child(even) {
+        flex-direction: row-reverse;
+        padding-left: calc(50% + 30px);
+        text-align: left;
+      }
+
+      .timeline-dot {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 16px;
+        height: 16px;
+        background: var(--primary);
+        border-radius: 50%;
+        border: 3px solid var(--white);
+        box-shadow: 0 0 0 3px var(--primary);
+        z-index: 1;
+      }
+
+      .timeline-icon {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 40px;
+        background: var(--primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1rem;
+        z-index: 1;
+        box-shadow: 0 4px 15px rgba(182, 32, 38, 0.3);
+      }
+
+      .timeline-content {
+        flex: 1;
+      }
+
+      .timeline-year {
+        font-family: "Playfair Display", serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 5px;
+      }
+
+      .timeline-title {
+        font-family: "Dancing Script", cursive;
+        font-size: 1.4rem;
+        color: #333;
+        margin-bottom: 8px;
+      }
+
+      .timeline-desc {
+        font-size: 0.95rem;
+        color: var(--grey);
+        line-height: 1.6;
+      }
+
+      /* Photo Gallery */
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+
+      .gallery-item {
+        aspect-ratio: 1;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+        background: #e8a89c;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .gallery-item:hover {
+        transform: scale(1.03);
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .gallery-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary);
+        opacity: 0.4;
+        font-size: 2.5rem;
+      }
+
+      .gallery-item.large {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+
+      /* Countdown */
+      .countdown-section {
+        background: var(--primary);
+        padding: 60px 20px;
+        text-align: center;
+        color: var(--white);
+      }
+
+      .countdown-title {
+        font-family: "Great Vibes", cursive;
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+      }
+
+      .countdown-grid {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .countdown-box {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 15px;
+        padding: 20px 25px;
+        min-width: 90px;
+        backdrop-filter: blur(10px);
+      }
+
+      .countdown-number {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        display: block;
+      }
+
+      .countdown-label {
+        font-size: 0.85rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-top: 5px;
+      }
+
+      /* RSVP Form */
+      .rsvp-section {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 60px 30px;
+        margin: 40px 20px;
+        box-shadow: 0 10px 40px rgba(182, 32, 38, 0.1);
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      .form-label {
+        display: block;
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+      }
+
+      .form-input,
+      .form-select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #eee;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-family: "Cormorant Garamond", serif;
+        transition: border-color 0.3s;
+        background: var(--white);
+      }
+
+      .form-input:focus,
+      .form-select:focus {
+        outline: none;
+        border-color: var(--primary);
+      }
+
+      .radio-group {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      .radio-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        padding: 10px 20px;
+        border: 2px solid #eee;
+        border-radius: 10px;
+        transition: all 0.3s;
+        font-size: 1rem;
+      }
+
+      .radio-label:hover {
+        border-color: var(--primary);
+      }
+
+      .radio-label input {
+        accent-color: var(--primary);
+      }
+
+      .radio-label input:checked + span {
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      .radio-label:has(input:checked) {
+        border-color: var(--primary);
+        background: rgba(182, 32, 38, 0.05);
+      }
+
+      .btn-submit {
+        width: 100%;
+        padding: 15px;
+        background: var(--primary);
+        color: var(--white);
+        border: none;
+        border-radius: 10px;
+        font-family: "Playfair Display", serif;
+        font-size: 1.1rem;
+        letter-spacing: 2px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn-submit:hover {
+        background: #8e1a1f;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(182, 32, 38, 0.3);
+      }
+
+      /* Gifts Section */
+      .gifts-section {
+        text-align: center;
+      }
+
+      .gift-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-top: 30px;
+      }
+
+      .gift-card {
+        background: var(--white);
+        border-radius: 15px;
+        padding: 30px 20px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      .gift-card-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 5px;
+      }
+
+      .gift-card-subtitle {
+        font-size: 0.85rem;
+        color: var(--grey);
+        margin-bottom: 15px;
+      }
+
+      .qr-placeholder {
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 15px;
+        background: #f5f5f5;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--grey);
+        font-size: 3rem;
+      }
+
+      .bank-info {
+        font-size: 0.9rem;
+        color: #555;
+        line-height: 1.8;
+      }
+
+      .bank-info strong {
+        color: var(--primary);
+      }
+
+      /* Contact Section */
+      .contact-section {
+        text-align: center;
+        padding: 60px 20px;
+      }
+
+      .contact-phones {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin: 30px 0;
+        flex-wrap: wrap;
+      }
+
+      .contact-phone {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .contact-phone i {
+        color: var(--primary);
+        font-size: 1.2rem;
+      }
+
+      .contact-phone a {
+        color: var(--primary);
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      .contact-phone span {
+        font-size: 0.85rem;
+        color: var(--grey);
+      }
+
+      /* Share Buttons */
+      .share-section {
+        text-align: center;
+        padding: 30px 20px;
+      }
+
+      .share-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .share-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.2rem;
+        text-decoration: none;
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
+      }
+
+      .share-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .share-btn.facebook {
+        background: #3b5998;
+      }
+      .share-btn.twitter {
+        background: #1da1f2;
+      }
+      .share-btn.pinterest {
+        background: #e60023;
+      }
+      .share-btn.email {
+        background: var(--grey);
+      }
+
+      /* Footer */
+      .footer {
+        background: var(--primary);
+        color: var(--white);
+        text-align: center;
+        padding: 40px 20px;
+      }
+
+      .footer-names {
+        font-family: "Great Vibes", cursive;
+        font-size: 2rem;
+        margin-bottom: 10px;
+      }
+
+      .footer-date {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        letter-spacing: 3px;
+      }
+
+      .footer-thanks {
+        margin-top: 20px;
+        font-size: 0.85rem;
+        opacity: 0.6;
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes heartbeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+
+      .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+
+      .animate-on-scroll.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Responsive */
+      @media (max-width: 600px) {
+        .hero-photo {
+          width: 200px;
+          height: 200px;
+        }
+
+        .couple-names {
+          font-size: 2.8rem;
+        }
+
+        .about-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+
+        .person-photo-wrapper {
+          width: 160px;
+          height: 160px;
+        }
+
+        .person-photo {
+          width: 160px;
+          height: 160px;
+        }
+
+        .timeline::before {
+          left: 20px;
+        }
+
+        .timeline-item:nth-child(odd),
+        .timeline-item:nth-child(even) {
+          flex-direction: row;
+          padding-left: 60px;
+          padding-right: 0;
+          text-align: left;
+        }
+
+        .timeline-icon {
+          left: 20px;
+        }
+
+        .gallery-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .gallery-item.large {
+          grid-column: span 1;
+          grid-row: span 1;
+        }
+
+        .gift-cards {
+          grid-template-columns: 1fr;
+        }
+
+        .countdown-box {
+          min-width: 70px;
+          padding: 15px 18px;
+        }
+
+        .countdown-number {
+          font-size: 2rem;
+        }
+
+        .section-title {
+          font-size: 2.2rem;
+        }
+
+        .love-story {
+          margin: 0 10px;
+          padding: 40px 20px;
+        }
+
+        .rsvp-section {
+          margin: 40px 10px;
+          padding: 40px 20px;
+        }
+      }
+
+      /* Intro overlay */
+      .intro-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--primary);
+        background-image:
+          linear-gradient(rgba(182, 32, 38, 0.85), rgba(182, 32, 38, 0.85)),
+          url("images/DUY02105.webp");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition:
+          opacity 0.8s ease,
+          visibility 0.8s ease;
+      }
+
+      .intro-overlay.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .intro-content {
+        text-align: center;
+        color: var(--white);
+      }
+
+      .intro-content .intro-label {
+        font-family: "Playfair Display", serif;
+        font-size: 0.9rem;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease forwards 0.2s;
+      }
+
+      .intro-content .intro-names {
+        font-family: "Great Vibes", cursive;
+        font-size: 3.5rem;
+        margin: 20px 0;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease forwards 0.5s;
+      }
+
+      .intro-content .intro-date {
+        font-family: "Playfair Display", serif;
+        font-size: 1.2rem;
+        letter-spacing: 4px;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease forwards 0.8s;
+      }
+
+      .intro-content .intro-btn {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 12px 40px;
+        border: 2px solid var(--white);
+        color: var(--white);
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        cursor: pointer;
+        background: none;
+        transition: all 0.3s;
+        opacity: 0;
+        animation: fadeInUp 0.8s ease forwards 1.1s;
+      }
+
+      .intro-content .intro-btn:hover {
+        background: var(--white);
+        color: var(--primary);
+      }
+
+      /* Music button */
+      .music-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: var(--white);
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        z-index: 100;
+        box-shadow: 0 4px 15px rgba(182, 32, 38, 0.3);
+        transition: transform 0.3s;
+      }
+
+      .music-btn:hover {
+        transform: scale(1.1);
+      }
+
+      .music-btn.playing i {
+        animation: spin 2s linear infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Intro Overlay -->
+    <div class="intro-overlay" id="introOverlay">
+      <div class="intro-content">
+        <div class="intro-label">Trân trọng kính mời</div>
+        <div class="intro-names">Công Tráng & Thanh Trà</div>
+        <div class="intro-date">30 . 09 . 2024</div>
+        <button class="intro-btn" id="openInvitation">Mở thiệp mời</button>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+      <div class="hero-content">
+        <img
+          src="images/DUY01804 fix.webp"
+          alt="Công Tráng & Thanh Trà"
+          class="hero-photo"
+        />
+        <div class="floral-divider">&#10087;</div>
+        <div class="wedding-label">Wedding Invitation</div>
+        <div class="couple-names">
+          Công Tráng
+          <span class="amp">&</span>
+          Thanh Trà
+        </div>
+        <div class="heart-divider"><i class="fas fa-heart"></i></div>
+        <div class="wedding-date">30 . 09 . 2024</div>
+        <div class="wedding-date-detail">
+          Thứ Hai &bull; Ngày 28 tháng 8 năm Giáp Thìn
+        </div>
+      </div>
+      <div class="scroll-hint">
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about-section" id="about">
+      <div class="animate-on-scroll">
+        <div class="section-title">Về chúng tôi</div>
+        <div class="section-subtitle">About Us</div>
+      </div>
+      <div class="about-grid">
+        <div class="person-card animate-on-scroll">
+          <div class="person-photo-wrapper">
+            <div class="tape"></div>
+            <div class="tape tape-right"></div>
+            <div class="person-photo">
+              <img src="images/DUY02238.webp" alt="Công Tráng" loading="lazy" />
+            </div>
+          </div>
+          <div class="person-role">Chú rể</div>
+          <div class="person-name">Công Tráng</div>
+          <div class="person-info">
+            Con ông: <strong>Nguyễn Văn A</strong><br />
+            Và bà: <strong>Trần Thị B</strong>
+          </div>
+        </div>
+        <div class="person-card animate-on-scroll">
+          <div class="person-photo-wrapper">
+            <div class="tape"></div>
+            <div class="tape tape-right"></div>
+            <div class="person-photo">
+              <img src="images/DUY01956.webp" alt="Thanh Trà" loading="lazy" />
+            </div>
+          </div>
+          <div class="person-role">Cô dâu</div>
+          <div class="person-name">Thanh Trà</div>
+          <div class="person-info">
+            Con ông: <strong>Nguyễn Văn C</strong><br />
+            Và bà: <strong>Trần Thị D</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Love Story -->
+    <div class="love-story" id="story">
+      <div class="animate-on-scroll">
+        <div class="section-title">Câu chuyện tình yêu</div>
+        <div class="section-subtitle">Love Story</div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item animate-on-scroll">
+          <div class="timeline-icon"><i class="fas fa-heart"></i></div>
+          <div class="timeline-content">
+            <div class="timeline-year">2020</div>
+            <div class="timeline-title">Lần đầu gặp gỡ</div>
+            <div class="timeline-desc">
+              Chúng tôi gặp nhau lần đầu tiên trong một dịp tình cờ. Ánh mắt đầu
+              tiên đã khiến trái tim rung động.
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item animate-on-scroll">
+          <div class="timeline-icon"><i class="fas fa-comments"></i></div>
+          <div class="timeline-content">
+            <div class="timeline-year">2021</div>
+            <div class="timeline-title">Bắt đầu hẹn hò</div>
+            <div class="timeline-desc">
+              Sau những lần trò chuyện và tìm hiểu, chúng tôi chính thức bên
+              nhau, cùng chia sẻ mọi niềm vui.
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item animate-on-scroll">
+          <div class="timeline-icon"><i class="fas fa-ring"></i></div>
+          <div class="timeline-content">
+            <div class="timeline-year">2023</div>
+            <div class="timeline-title">Lời cầu hôn</div>
+            <div class="timeline-desc">
+              Một lời cầu hôn đầy bất ngờ và xúc động. Câu trả lời "Có" đã mở ra
+              chương mới của cuộc đời.
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item animate-on-scroll">
+          <div class="timeline-icon"><i class="fas fa-church"></i></div>
+          <div class="timeline-content">
+            <div class="timeline-year">2024</div>
+            <div class="timeline-title">Ngày trọng đại</div>
+            <div class="timeline-desc">
+              Chúng tôi chính thức về chung một nhà, bắt đầu hành trình hạnh
+              phúc trọn đời bên nhau.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo Gallery -->
+    <section class="section" id="gallery">
+      <div class="animate-on-scroll">
+        <div class="section-title">Album ảnh</div>
+        <div class="section-subtitle">Photo Gallery</div>
+      </div>
+      <div class="gallery-grid animate-on-scroll">
+        <div class="gallery-item large">
+          <img src="images/DSC09585.webp" alt="Wedding photo" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="images/DUY02301.webp" alt="Wedding photo" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="images/DUY02385.webp" alt="Wedding photo" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="images/DUY01979.webp" alt="Wedding photo" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="images/DUY02127.webp" alt="Wedding photo" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="images/DUY02539.webp" alt="Wedding photo" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="images/DUY02606.webp" alt="Wedding photo" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="images/DUY02649.webp" alt="Wedding photo" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="images/DUY02665.webp" alt="Wedding photo" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="images/DUY02158.webp" alt="Wedding photo" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="images/DUY02045.webp" alt="Wedding photo" loading="lazy" />
+        </div>
+        <div class="gallery-item">
+          <img src="images/DUY01894.webp" alt="Wedding photo" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Countdown -->
+    <section class="countdown-section" id="countdown">
+      <div class="countdown-title animate-on-scroll">Đếm ngược</div>
+      <div class="countdown-grid animate-on-scroll">
+        <div class="countdown-box">
+          <span class="countdown-number" id="days">0</span>
+          <div class="countdown-label">Ngày</div>
+        </div>
+        <div class="countdown-box">
+          <span class="countdown-number" id="hours">0</span>
+          <div class="countdown-label">Giờ</div>
+        </div>
+        <div class="countdown-box">
+          <span class="countdown-number" id="minutes">0</span>
+          <div class="countdown-label">Phút</div>
+        </div>
+        <div class="countdown-box">
+          <span class="countdown-number" id="seconds">0</span>
+          <div class="countdown-label">Giây</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RSVP Form -->
+    <div class="rsvp-section" id="rsvp">
+      <div class="animate-on-scroll">
+        <div class="section-title">Thông tin phản hồi</div>
+        <div class="section-subtitle">RSVP</div>
+      </div>
+      <form id="rsvpForm" class="animate-on-scroll">
+        <div class="form-group">
+          <label class="form-label">Bạn là khách của:</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="guestOf" value="groom" />
+              <span>Nhà trai</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="guestOf" value="bride" />
+              <span>Nhà gái</span>
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Bạn có tham dự không?</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="attendance" value="yes" />
+              <span>Có, tôi sẽ đến</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="attendance" value="no" />
+              <span>Rất tiếc, tôi không đến được</span>
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Họ và tên:</label>
+          <input
+            type="text"
+            class="form-input"
+            placeholder="Nhập họ và tên"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Số người tham dự:</label>
+          <select class="form-select">
+            <option value="1">1 người</option>
+            <option value="2">2 người</option>
+            <option value="3">3 người</option>
+            <option value="4">4 người</option>
+            <option value="5">5 người trở lên</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phương tiện di chuyển:</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="transport" value="self" />
+              <span>Tự túc</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="transport" value="bus" />
+              <span>Xe đưa đón</span>
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Số điện thoại:</label>
+          <input
+            type="tel"
+            class="form-input"
+            placeholder="Nhập số điện thoại"
+          />
+        </div>
+        <button type="submit" class="btn-submit">GỬI PHẢN HỒI</button>
+      </form>
+    </div>
+
+    <!-- Gifts Section -->
+    <section class="section gifts-section" id="gifts">
+      <div class="animate-on-scroll">
+        <div class="section-title">Gửi lời chúc</div>
+        <div class="section-subtitle">Wedding Gift</div>
+      </div>
+      <p
+        class="animate-on-scroll"
+        style="
+          text-align: center;
+          color: #555;
+          margin-bottom: 30px;
+          font-size: 1.05rem;
+        "
+      >
+        Sự hiện diện của bạn là niềm vinh hạnh cho gia đình chúng tôi.<br />
+        Nếu muốn gửi quà mừng, xin vui lòng chuyển khoản theo thông tin bên
+        dưới.
+      </p>
+      <div class="gift-cards animate-on-scroll">
+        <div class="gift-card">
+          <div class="gift-card-title"><i class="fas fa-male"></i> Chú rể</div>
+          <div class="gift-card-subtitle">Công Tráng</div>
+          <div class="qr-placeholder"><i class="fas fa-qrcode"></i></div>
+          <div class="bank-info">
+            <strong>Vietcombank</strong><br />
+            STK: 1234567890<br />
+            NGUYEN CONG TRANG
+          </div>
+        </div>
+        <div class="gift-card">
+          <div class="gift-card-title">
+            <i class="fas fa-female"></i> Cô dâu
+          </div>
+          <div class="gift-card-subtitle">Thanh Trà</div>
+          <div class="qr-placeholder"><i class="fas fa-qrcode"></i></div>
+          <div class="bank-info">
+            <strong>Techcombank</strong><br />
+            STK: 0987654321<br />
+            NGUYEN THANH TRA
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+      <div class="animate-on-scroll">
+        <div class="section-title">Liên hệ</div>
+        <div class="section-subtitle">Contact Us</div>
+      </div>
+      <div class="contact-phones animate-on-scroll">
+        <div class="contact-phone">
+          <i class="fas fa-phone-alt"></i>
+          <div>
+            <a href="tel:0901234567">0901 234 567</a><br />
+            <span>Công Tráng</span>
+          </div>
+        </div>
+        <div class="contact-phone">
+          <i class="fas fa-phone-alt"></i>
+          <div>
+            <a href="tel:0907654321">0907 654 321</a><br />
+            <span>Thanh Trà</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Share Section -->
+    <section class="share-section">
+      <div class="animate-on-scroll">
+        <div class="section-title" style="font-size: 2rem">Chia sẻ</div>
+        <div class="section-subtitle">Share This</div>
+        <div class="share-buttons">
+          <a href="#" class="share-btn facebook" onclick="shareOn('facebook')"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+          <a href="#" class="share-btn twitter" onclick="shareOn('twitter')"
+            ><i class="fab fa-twitter"></i
+          ></a>
+          <a href="#" class="share-btn pinterest" onclick="shareOn('pinterest')"
+            ><i class="fab fa-pinterest-p"></i
+          ></a>
+          <a href="#" class="share-btn email" onclick="shareOn('email')"
+            ><i class="fas fa-envelope"></i
+          ></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-names">Công Tráng & Thanh Trà</div>
+      <div class="footer-date">30 . 09 . 2024</div>
+      <div class="footer-thanks">Cảm ơn bạn đã ghé thăm!</div>
+    </footer>
+
+    <script>
+      // Intro overlay
+      $("#openInvitation").on("click", function () {
+        $("#introOverlay").addClass("hidden");
+        setTimeout(function () {
+          $("#introOverlay").remove();
+        }, 800);
+      });
+
+      // Countdown Timer
+      function updateCountdown() {
+        const weddingDate = new Date("2024-09-30T10:00:00+07:00");
+        const now = new Date();
+        const diff = weddingDate - now;
+
+        if (diff <= 0) {
+          $("#days").text("0");
+          $("#hours").text("0");
+          $("#minutes").text("0");
+          $("#seconds").text("0");
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+        );
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        $("#days").text(days);
+        $("#hours").text(hours);
+        $("#minutes").text(minutes);
+        $("#seconds").text(seconds);
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+
+      // Scroll animations
+      function checkScroll() {
+        $(".animate-on-scroll").each(function () {
+          const el = $(this);
+          const top = el.offset().top;
+          const windowBottom = $(window).scrollTop() + $(window).height();
+
+          if (windowBottom > top + 50) {
+            el.addClass("visible");
+          }
+        });
+      }
+
+      $(window).on("scroll", checkScroll);
+      checkScroll();
+
+      // RSVP form submission
+      $("#rsvpForm").on("submit", function (e) {
+        e.preventDefault();
+        alert(
+          "Cảm ơn bạn đã phản hồi! Chúng tôi rất vui khi nhận được thông tin từ bạn.",
+        );
+        this.reset();
+      });
+
+      // Share functions
+      function shareOn(platform) {
+        const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent(
+          "Thiệp cưới Công Tráng & Thanh Trà - 30.09.2024",
+        );
+        let shareUrl = "";
+
+        switch (platform) {
+          case "facebook":
+            shareUrl = "https://www.facebook.com/sharer/sharer.php?u=" + url;
+            break;
+          case "twitter":
+            shareUrl =
+              "https://twitter.com/intent/tweet?url=" + url + "&text=" + text;
+            break;
+          case "pinterest":
+            shareUrl =
+              "https://pinterest.com/pin/create/button/?url=" +
+              url +
+              "&description=" +
+              text;
+            break;
+          case "email":
+            shareUrl = "mailto:?subject=" + text + "&body=" + url;
+            break;
+        }
+
+        if (shareUrl) window.open(shareUrl, "_blank");
+      }
+
+      // Smooth scroll
+      $('a[href^="#"]').on("click", function (e) {
+        e.preventDefault();
+        const target = $($(this).attr("href"));
+        if (target.length) {
+          $("html, body").animate({ scrollTop: target.offset().top }, 800);
+        }
+      });
+    </script>
+  </body>
+</html>
