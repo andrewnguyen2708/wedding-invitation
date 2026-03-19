@@ -19,7 +19,10 @@
 
     <!-- Open Graph / Facebook / Zalo -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://wedding-invitation-pied-iota.vercel.app/" />
+    <meta
+      property="og:url"
+      content="https://wedding-invitation-pied-iota.vercel.app/"
+    />
     <meta property="og:site_name" content="Công Tráng & Thanh Trà Wedding" />
     <meta property="og:locale" content="vi_VN" />
     <meta
@@ -30,7 +33,10 @@
       property="og:description"
       content="Trân trọng kính mời bạn đến dự lễ cưới của Công Tráng & Thanh Trà - 12/04/2026"
     />
-    <meta property="og:image" content="https://wedding-invitation-pied-iota.vercel.app/images/gallery/DUY01804.webp" />
+    <meta
+      property="og:image"
+      content="https://wedding-invitation-pied-iota.vercel.app/images/gallery/DUY01804.webp"
+    />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
 
@@ -44,7 +50,10 @@
       name="twitter:description"
       content="Trân trọng kính mời bạn đến dự lễ cưới của Công Tráng & Thanh Trà - 12/04/2026"
     />
-    <meta name="twitter:image" content="https://wedding-invitation-pied-iota.vercel.app/images/gallery/DUY01804.webp" />
+    <meta
+      name="twitter:image"
+      content="https://wedding-invitation-pied-iota.vercel.app/images/gallery/DUY01804.webp"
+    />
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -66,13 +75,13 @@
       <div class="curtain-right"></div>
       <div class="intro-content">
         <div class="intro-ornament-frame">
-          <div class="intro-label">Trân trọng kính mời</div>
           <div class="intro-names">
             <span class="intro-name">Công Tráng</span>
             <span class="intro-amp">&</span>
             <span class="intro-name">Thanh Trà</span>
           </div>
-          <div class="intro-date">12 . 04 . 2026</div>
+          <div class="intro-invite" id="introInvite">Trân trọng kính mời</div>
+          <div class="intro-guest-name" id="introGuestName"></div>
           <button class="intro-btn" id="openInvitation">Mở thiệp mời</button>
         </div>
       </div>
@@ -99,10 +108,6 @@
           Thanh Trà
         </div>
         <div class="heart-divider"><i class="fas fa-heart"></i></div>
-        <div class="wedding-date">12 . 04 . 2026</div>
-        <div class="wedding-date-detail">
-          Thứ Hai &bull; Ngày 27 tháng 02 năm Bính Ngọ
-        </div>
       </div>
       <div class="scroll-hint">
         <i class="fas fa-chevron-down"></i>
@@ -202,23 +207,26 @@
     <!-- Section Divider -->
     <div class="section-divider"><span class="diamond"></span></div>
 
-    <!-- Venue Sections — Nhà Trai & Nhà Gái -->
-    <div class="venue-section" id="venue">
+    <!-- Lễ Thành Hôn -->
+    <div class="venue-section" id="ceremony">
       <div class="section-header" data-aos="fade-up">
-        <div class="section-title">Địa điểm tiệc cưới</div>
+        <div class="section-title">Lễ Thành Hôn</div>
         <div class="ornament-line"><span class="diamond"></span></div>
-        <div class="section-subtitle">Wedding Venue</div>
+        <div class="section-subtitle">Wedding Ceremony</div>
       </div>
       <div class="venue-grid">
-        <div class="venue-card" data-aos="fade-up" data-aos-delay="100">
-          <div class="venue-card-icon"><i class="fas fa-male"></i></div>
-          <div class="venue-card-title">Nhà Trai</div>
+        <div
+          class="venue-card venue-card-full"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          <div class="venue-card-icon"><i class="fas fa-church"></i></div>
           <div class="venue-card-address">
             Thôn Tử Nê, xã Lương Tài<br />
             Bắc Ninh
           </div>
           <div class="venue-card-time">
-            <i class="fas fa-clock"></i> 17:00 - Chủ nhật, 12/04/2026
+            <i class="fas fa-clock"></i> 15:00 - Chủ nhật, 19/04/2026
           </div>
           <a
             href="https://www.google.com/maps?q=21.033151188372862,106.19209416582338"
@@ -229,7 +237,21 @@
             <i class="fas fa-map-marker-alt"></i> Xem bản đồ
           </a>
         </div>
-        <div class="venue-card" data-aos="fade-up" data-aos-delay="200">
+      </div>
+    </div>
+
+    <!-- Section Divider -->
+    <div class="section-divider"><span class="diamond"></span></div>
+
+    <!-- Tiệc Cưới -->
+    <div class="venue-section" id="venue">
+      <div class="section-header" data-aos="fade-up">
+        <div class="section-title">Tiệc Cưới</div>
+        <div class="ornament-line"><span class="diamond"></span></div>
+        <div class="section-subtitle">Wedding Reception</div>
+      </div>
+      <div class="venue-grid">
+        <div class="venue-card" data-aos="fade-up" data-aos-delay="100">
           <div class="venue-card-icon"><i class="fas fa-female"></i></div>
           <div class="venue-card-title">Nhà Gái</div>
           <div class="venue-card-address">
@@ -237,10 +259,29 @@
             Thanh Hóa
           </div>
           <div class="venue-card-time">
-            <i class="fas fa-clock"></i> 17:00 - Chủ nhật, 12/04/2026
+            <i class="fas fa-clock"></i> 10:00 - Thứ bảy, 18/04/2026
           </div>
           <a
             href="https://www.google.com/maps?q=19.862162, 105.889532"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="venue-map-link"
+          >
+            <i class="fas fa-map-marker-alt"></i> Xem bản đồ
+          </a>
+        </div>
+        <div class="venue-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="venue-card-icon"><i class="fas fa-male"></i></div>
+          <div class="venue-card-title">Nhà Trai</div>
+          <div class="venue-card-address">
+            Thôn Tử Nê, xã Lương Tài<br />
+            Bắc Ninh
+          </div>
+          <div class="venue-card-time">
+            <i class="fas fa-clock"></i> 16:30 - Chủ nhật, 19/04/2026
+          </div>
+          <a
+            href="https://www.google.com/maps?q=21.033151188372862,106.19209416582338"
             target="_blank"
             rel="noopener noreferrer"
             class="venue-map-link"
@@ -511,38 +552,40 @@
     <!-- Gifts Section -->
     <section class="section gifts-section" id="gifts">
       <div class="section-header" data-aos="fade-up">
-        <div class="section-title">Mừng cưới</div>
+        <div class="section-title">Quà tặng</div>
         <div class="ornament-line"><span class="diamond"></span></div>
         <div class="section-subtitle">Wedding Gift</div>
       </div>
       <p class="gifts-intro" data-aos="fade-up" data-aos-delay="100">
         Sự hiện diện của bạn là niềm vinh hạnh cho gia đình chúng tôi.<br />
-        Nếu muốn gửi quà mừng, xin vui lòng chuyển khoản theo thông tin bên
-        dưới.
+        Nếu muốn gửi quà mừng, xin nhấn vào biểu tượng bên dưới.
       </p>
-      <div class="gift-cards">
-        <div class="gift-card" data-aos="fade-up" data-aos-delay="150">
-          <div class="gift-card-title"><i class="fas fa-male"></i> Chú rể</div>
-          <div class="gift-card-subtitle">Công Tráng</div>
-          <div class="qr-placeholder"><i class="fas fa-qrcode"></i></div>
-          <div class="bank-info">
-            <strong>VP bank</strong><br />
-            STK: 1234567<br />
-            NGUYEN VAN TRANG
-          </div>
-        </div>
-        <div class="gift-card" data-aos="fade-up" data-aos-delay="250">
-          <div class="gift-card-title">
-            <i class="fas fa-female"></i> Cô dâu
-          </div>
-          <div class="gift-card-subtitle">Thanh Trà</div>
-          <div class="qr-placeholder"><i class="fas fa-qrcode"></i></div>
-          <div class="bank-info">
-            <strong>Techcombank</strong><br />
-            STK: 12344557<br />
-            LUU THI THANH TRA
-          </div>
-        </div>
+      <div class="gifts-icon-wrap" data-aos="fade-up" data-aos-delay="200">
+        <button class="gifts-icon-btn" id="giftsOpenBtn">
+          <i class="fas fa-gift"></i>
+        </button>
+        <div class="gifts-icon-label">Gửi quà mừng</div>
+      </div>
+    </section>
+
+    <!-- Section Divider -->
+    <div class="section-divider"><span class="diamond"></span></div>
+
+    <!-- Wishes Section -->
+    <section class="section wishes-section" id="wishes">
+      <div class="section-header" data-aos="fade-up">
+        <div class="section-title">Lời chúc</div>
+        <div class="ornament-line"><span class="diamond"></span></div>
+        <div class="section-subtitle">Wishes</div>
+      </div>
+
+      <div
+        class="wishes-list"
+        id="wishesList"
+        data-aos="fade-up"
+        data-aos-delay="100"
+      >
+        <!-- Wishes will be loaded here -->
       </div>
     </section>
 
@@ -582,7 +625,7 @@
     <footer class="footer">
       <div class="footer-heart"><i class="fas fa-heart"></i></div>
       <div class="footer-names">Công Tráng & Thanh Trà</div>
-      <div class="footer-date">12 . 04 . 2026</div>
+      <div class="footer-date">19 . 04 . 2026</div>
       <div class="footer-thanks">Cảm ơn bạn đã ghé thăm!</div>
     </footer>
 
@@ -606,12 +649,6 @@
       <img src="images/music.png" alt="Music" />
     </button>
 
-    <!-- Couple Illustration (fixed bottom-right) -->
-    <div class="couple-illustration" id="coupleIllustration">
-      <img src="images/animation.png" alt="Couple illustration" />
-    </div>
-    <div class="couple-hearts" id="coupleHearts"></div>
-
     <!-- RSVP Dialog -->
     <div class="rsvp-dialog-overlay" id="rsvpDialog">
       <div class="rsvp-dialog">
@@ -625,6 +662,61 @@
         </div>
         <div class="rsvp-dialog-response" id="rsvpResponse"></div>
       </div>
+    </div>
+
+    <!-- Gift Sidebar -->
+    <div class="gift-sidebar-overlay" id="giftOverlay"></div>
+    <div class="gift-sidebar" id="giftSidebar">
+      <div class="gift-sidebar-header">
+        <span class="gift-sidebar-title">Mừng Cưới</span>
+        <button class="gift-sidebar-close" id="giftClose">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="gift-sidebar-content">
+        <div class="gift-sidebar-card">
+          <div class="gift-sidebar-label">
+            <i class="fas fa-female"></i> Cô dâu
+          </div>
+          <div class="gift-sidebar-qr">
+            <img src="images/bride_qr.jpg" alt="QR code" />
+          </div>
+          <div class="gift-sidebar-info">
+            <strong>Thanh Trà</strong><br />
+            MBbank — 0969446277
+          </div>
+        </div>
+        <div class="gift-sidebar-card">
+          <div class="gift-sidebar-label">
+            <i class="fas fa-male"></i> Chú rể
+          </div>
+          <div class="gift-sidebar-qr">
+            <img src="images/groom_qr.png" alt="QR code" />
+          </div>
+          <div class="gift-sidebar-info">
+            <strong>Công Tráng</strong><br />
+            VP Bank — 171839866
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="bottom-bar" id="bottomBar">
+      <div class="bottom-bar-input-wrap">
+        <input
+          type="text"
+          id="bottomWishInput"
+          class="bottom-bar-input"
+          placeholder="Gửi lời chúc..."
+        />
+        <button class="bottom-bar-send" id="bottomWishSend">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+      <button class="bottom-bar-gift" id="bottomGiftBtn">
+        <i class="fas fa-gift"></i>
+      </button>
     </div>
 
     <!-- Audio (hidden) -->

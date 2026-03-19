@@ -51,6 +51,18 @@ function initAfterIntro() {
     .catch(function () {});
 }
 
+// ===== PERSONALIZE INTRO =====
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var title = params.get("title") || "";
+  var guestName = params.get("guestName") || "";
+  var introGuestName = document.getElementById("introGuestName");
+  if (title || guestName) {
+    var formattedName = guestName ? guestName.replace(/([A-Z])/g, " $1").trim() : "";
+    introGuestName.textContent = (title ? title + " " : "") + formattedName;
+  }
+})();
+
 (function () {
   var overlay = document.getElementById("introOverlay");
   var hasVisited = localStorage.getItem("introSeen");
@@ -324,41 +336,159 @@ musicBtn.addEventListener("click", function () {
   isPlaying = !isPlaying;
 });
 
-// ===== COUPLE ILLUSTRATION — HEARTS FLY ON HOVER =====
+// ===== WISHES (BOTTOM BAR INPUT) =====
 (function () {
-  var coupleEl = document.getElementById("coupleIllustration");
-  var heartsContainer = document.getElementById("coupleHearts");
-  var heartInterval = null;
-  var heartSymbols = ["\u2764", "\u2665", "\u2763", "\u2766"];
+  var WISHES_JSON = "wishes.json";
+  var wishesList = document.getElementById("wishesList");
+  var wishInput = document.getElementById("bottomWishInput");
+  var wishSendBtn = document.getElementById("bottomWishSend");
 
-  function spawnHeart() {
-    var heart = document.createElement("span");
-    heart.className = "flying-heart";
-    heart.textContent =
-      heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-    heart.style.left = Math.random() * 50 + "px";
-    heart.style.fontSize = 0.6 + Math.random() * 0.8 + "rem";
-    heart.style.animationDuration = 1 + Math.random() * 1 + "s";
-    heartsContainer.appendChild(heart);
-    setTimeout(function () {
-      heart.remove();
-    }, 2000);
+  function loadWishes() {
+    fetch(WISHES_JSON)
+      .then(function (res) {
+        if (!res.ok) return [];
+        return res.json();
+      })
+      .then(function (wishes) {
+        renderWishes(wishes);
+      })
+      .catch(function () {
+        renderWishes([]);
+      });
   }
 
-  coupleEl.addEventListener("mouseenter", function () {
-    spawnHeart();
-    heartInterval = setInterval(spawnHeart, 300);
+  function timeAgo(dateStr) {
+    var now = new Date();
+    var date = new Date(dateStr);
+    var diff = Math.floor((now - date) / 1000);
+    if (diff < 60) return "Vừa xong";
+    if (diff < 3600) return Math.floor(diff / 60) + " phút trước";
+    if (diff < 86400) return Math.floor(diff / 3600) + " giờ trước";
+    return Math.floor(diff / 86400) + " ngày trước";
+  }
+
+  function escapeHtml(str) {
+    var div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function renderWishes(wishes) {
+    wishesList.innerHTML = "";
+    wishes
+      .slice()
+      .reverse()
+      .forEach(function (wish) {
+        var card = document.createElement("div");
+        card.className = "wish-card";
+        card.innerHTML =
+          '<div class="wish-card-header">' +
+          '<div class="wish-avatar">' +
+          wish.name.charAt(0).toUpperCase() +
+          "</div>" +
+          '<span class="wish-name">' +
+          escapeHtml(wish.name) +
+          "</span>" +
+          '<span class="wish-time">' +
+          timeAgo(wish.time) +
+          "</span>" +
+          "</div>" +
+          '<div class="wish-message">' +
+          escapeHtml(wish.message) +
+          "</div>";
+        wishesList.appendChild(card);
+      });
+  }
+
+  function submitWish() {
+    var message = wishInput.value.trim();
+    if (!message) return;
+
+    // Get guest name from URL or use default
+    var params = new URLSearchParams(window.location.search);
+    var name = params.get("name") || "Khách mời";
+
+    // Add to local list and render immediately
+    fetch(WISHES_JSON)
+      .then(function (res) {
+        if (!res.ok) return [];
+        return res.json();
+      })
+      .then(function (wishes) {
+        wishes.push({ name: name, message: message, time: new Date().toISOString() });
+        renderWishes(wishes);
+        // Also save to localStorage as backup
+        localStorage.setItem("wedding_wishes", JSON.stringify(wishes));
+      })
+      .catch(function () {
+        var wishes = [];
+        try {
+          wishes = JSON.parse(localStorage.getItem("wedding_wishes")) || [];
+        } catch (e) {}
+        wishes.push({ name: name, message: message, time: new Date().toISOString() });
+        localStorage.setItem("wedding_wishes", JSON.stringify(wishes));
+        renderWishes(wishes);
+      });
+
+    wishInput.value = "";
+    // Scroll to wishes section
+    document.getElementById("wishes").scrollIntoView({ behavior: "smooth" });
+  }
+
+  wishSendBtn.addEventListener("click", submitWish);
+  wishInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") submitWish();
   });
 
-  coupleEl.addEventListener("mouseleave", function () {
-    clearInterval(heartInterval);
-    heartInterval = null;
-  });
-
-  // Touch support for mobile
-  coupleEl.addEventListener("touchstart", function () {
-    for (var i = 0; i < 5; i++) {
-      setTimeout(spawnHeart, i * 200);
-    }
-  });
+  // Load from JSON first, fallback to localStorage
+  fetch(WISHES_JSON)
+    .then(function (res) {
+      if (!res.ok) throw new Error();
+      return res.json();
+    })
+    .then(function (wishes) {
+      // Merge with localStorage wishes
+      var localWishes = [];
+      try {
+        localWishes = JSON.parse(localStorage.getItem("wedding_wishes")) || [];
+      } catch (e) {}
+      // Combine: JSON file wishes + any local-only wishes
+      var allTimes = wishes.map(function (w) { return w.time; });
+      localWishes.forEach(function (lw) {
+        if (allTimes.indexOf(lw.time) === -1) wishes.push(lw);
+      });
+      renderWishes(wishes);
+    })
+    .catch(function () {
+      var wishes = [];
+      try {
+        wishes = JSON.parse(localStorage.getItem("wedding_wishes")) || [];
+      } catch (e) {}
+      renderWishes(wishes);
+    });
 })();
+
+// ===== GIFT SIDEBAR =====
+(function () {
+  var giftBtn = document.getElementById("bottomGiftBtn");
+  var giftSidebar = document.getElementById("giftSidebar");
+  var giftOverlay = document.getElementById("giftOverlay");
+  var giftClose = document.getElementById("giftClose");
+
+  function openGift() {
+    giftSidebar.classList.add("active");
+    giftOverlay.classList.add("active");
+  }
+
+  function closeGift() {
+    giftSidebar.classList.remove("active");
+    giftOverlay.classList.remove("active");
+  }
+
+  giftBtn.addEventListener("click", openGift);
+  var giftsOpenBtn = document.getElementById("giftsOpenBtn");
+  if (giftsOpenBtn) giftsOpenBtn.addEventListener("click", openGift);
+  giftOverlay.addEventListener("click", closeGift);
+  giftClose.addEventListener("click", closeGift);
+})();
+

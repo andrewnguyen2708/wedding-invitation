@@ -343,7 +343,8 @@ body {
   border-width: 0 2px 2px 0;
 }
 
-.intro-content .intro-label {
+.intro-content .intro-label,
+.intro-content .intro-invite {
   font-family: "Playfair Display", serif;
   font-size: 0.8rem;
   letter-spacing: 6px;
@@ -351,6 +352,16 @@ body {
   opacity: 0;
   animation: fadeInUp 0.8s var(--ease-out) forwards 0.2s;
   color: var(--gold-light);
+}
+
+.intro-content .intro-guest-name {
+  font-family: "Playfair Display", serif;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  color: var(--white);
+  margin-top: 8px;
+  opacity: 0;
+  animation: fadeInUp 0.8s var(--ease-out) forwards 0.4s;
 }
 
 .intro-content .intro-names {
@@ -1344,81 +1355,38 @@ body {
   font-size: 1rem;
 }
 
-.gift-cards {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  margin-top: 24px;
+.gifts-icon-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
-.gift-card {
-  background: var(--white);
-  border-radius: var(--radius);
-  padding: 28px 20px;
-  box-shadow: 0 2px 12px var(--shadow);
-  position: relative;
-  overflow: hidden;
-  transition:
-    transform 0.3s var(--ease-out),
-    box-shadow 0.3s;
-}
-
-.gift-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    var(--gold-dark),
-    var(--gold-light),
-    var(--gold-dark)
-  );
-}
-
-.gift-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px var(--shadow-strong);
-}
-
-.gift-card-title {
-  font-family: "Playfair Display", serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--primary);
-  margin-bottom: 4px;
-}
-
-.gift-card-subtitle {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin-bottom: 12px;
-}
-
-.qr-placeholder {
-  width: 130px;
-  height: 130px;
-  margin: 0 auto 12px;
-  background: var(--bg);
-  border-radius: var(--radius);
+.gifts-icon-btn {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid var(--gold);
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: var(--gold-light);
+  font-size: 2.2rem;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-muted);
-  font-size: 2.5rem;
-  border: 1px solid var(--border);
+  transition: all 0.3s var(--ease-spring);
+  box-shadow: 0 4px 20px rgba(139, 26, 26, 0.3);
 }
 
-.bank-info {
-  font-size: 0.9rem;
+.gifts-icon-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 30px rgba(139, 26, 26, 0.4);
+}
+
+.gifts-icon-label {
+  font-size: 1rem;
   color: var(--text-light);
-  line-height: 1.8;
-}
-
-.bank-info strong {
-  color: var(--primary);
+  font-weight: 600;
 }
 
 /* ===== CONTACT SECTION ===== */
@@ -1514,11 +1482,266 @@ body {
   opacity: 0.5;
 }
 
+/* ===== WISHES SECTION ===== */
+
+.wishes-list {
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.wish-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  position: relative;
+}
+
+.wish-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.wish-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.wish-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--primary);
+}
+
+.wish-time {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.wish-message {
+  font-size: 1rem;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+/* ===== BOTTOM BAR ===== */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  padding-bottom: calc(8px + env(safe-area-inset-bottom));
+  z-index: 100;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  border-top: 1px solid var(--border);
+}
+
+.bottom-bar-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: var(--bg-warm);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+
+.bottom-bar-input-wrap:focus-within {
+  border-color: var(--gold);
+}
+
+.bottom-bar-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 10px 16px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.bottom-bar-input::placeholder {
+  color: var(--text-muted);
+}
+
+.bottom-bar-send {
+  border: none;
+  background: var(--primary);
+  color: var(--white);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 4px;
+  transition: background 0.3s, transform 0.2s;
+  flex-shrink: 0;
+}
+
+.bottom-bar-send:hover {
+  background: var(--primary-light);
+  transform: scale(1.05);
+}
+
+.bottom-bar-send i {
+  font-size: 0.85rem;
+}
+
+.bottom-bar-gift {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: var(--primary);
+  color: var(--gold-light);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+
+.bottom-bar-gift:hover {
+  background: var(--primary-light);
+  transform: scale(1.05);
+}
+
+.bottom-bar-gift i {
+  font-size: 1.1rem;
+}
+
+/* Add padding to footer so content isn't hidden behind bottom bar */
+.footer {
+  padding-bottom: 80px;
+}
+
+/* ===== GIFT SIDEBAR ===== */
+.gift-sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.gift-sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.gift-sidebar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--white);
+  z-index: 201;
+  border-radius: 20px 20px 0 0;
+  transform: translateY(100%);
+  transition: transform 0.35s var(--ease-spring);
+  max-height: 85vh;
+  overflow-y: auto;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.gift-sidebar.active {
+  transform: translateY(0);
+}
+
+.gift-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--white);
+  border-radius: 20px 20px 0 0;
+}
+
+.gift-sidebar-title {
+  font-family: "Great Vibes", cursive;
+  font-size: 1.6rem;
+  color: var(--primary);
+}
+
+.gift-sidebar-close {
+  border: none;
+  background: none;
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.gift-sidebar-content {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+}
+
+.gift-sidebar-card {
+  flex: 1;
+  text-align: center;
+  background: var(--bg-warm);
+  border-radius: 12px;
+  padding: 16px 12px;
+}
+
+.gift-sidebar-label {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.gift-sidebar-qr img {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+}
+
+.gift-sidebar-info {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
 /* ===== FLOATING MUSIC BUTTON ===== */
 .floating-music-btn {
   position: fixed;
-  bottom: 20px;
-  left: 20px;
+  top: 20px;
+  right: 20px;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -1551,69 +1774,6 @@ body {
 
 .floating-music-btn.playing img {
   animation: spinSlow 2s linear infinite;
-}
-
-/* ===== COUPLE ILLUSTRATION (FIXED BOTTOM) ===== */
-.couple-illustration {
-  position: fixed;
-  bottom: 0;
-  right: 20px;
-  width: 100px;
-  height: auto;
-  z-index: 99;
-  cursor: pointer;
-  transition: transform 0.4s var(--ease-spring);
-  filter: drop-shadow(0 2px 8px rgba(44, 24, 16, 0.15));
-}
-
-.couple-illustration:hover {
-  transform: translateY(-8px);
-}
-
-.couple-illustration img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* Hearts container */
-.couple-hearts {
-  position: fixed;
-  bottom: 80px;
-  right: 40px;
-  width: 60px;
-  height: 120px;
-  pointer-events: none;
-  z-index: 98;
-}
-
-@keyframes heartFly {
-  0% {
-    opacity: 1;
-    transform: translateY(0) translateX(0) scale(0.5);
-  }
-  30% {
-    opacity: 1;
-    transform: translateY(-30px) translateX(10px) scale(1);
-  }
-  70% {
-    opacity: 0.6;
-    transform: translateY(-80px) translateX(-8px) scale(0.8);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-130px) translateX(5px) scale(0.3);
-  }
-}
-
-.flying-heart {
-  position: absolute;
-  bottom: 0;
-  color: var(--primary);
-  font-size: 0.9rem;
-  opacity: 0;
-  animation: heartFly 1.5s var(--ease-out) forwards;
-  pointer-events: none;
 }
 
 /* ===== RESPONSIVE — TABLET (768px+) ===== */
@@ -1752,11 +1912,6 @@ body {
   .rsvp-section {
     padding: 60px 40px;
     margin: 0 24px;
-  }
-
-  .gift-cards {
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
   }
 
   .venue-section {
