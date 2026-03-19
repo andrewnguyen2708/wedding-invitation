@@ -58,7 +58,9 @@ function initAfterIntro() {
   var guestName = params.get("guestName") || "";
   var introGuestName = document.getElementById("introGuestName");
   if (title || guestName) {
-    var formattedName = guestName ? guestName.replace(/([A-Z])/g, " $1").trim() : "";
+    var formattedName = guestName
+      ? guestName.replace(/([A-Z])/g, " $1").trim()
+      : "";
     introGuestName.textContent = (title ? title + " " : "") + formattedName;
   }
 })();
@@ -226,7 +228,10 @@ function closeLightbox() {
     "https://script.google.com/macros/s/AKfycbxBe2mvRoLGCjqSeX_LbI0a1nMUYsz81JFtMaOeJM8nKKPECfYL4P4VWCTjelbzido3/exec";
 
   function sendRsvpToSheet(name, title, attendance) {
-    if (!GOOGLE_SHEET_URL || GOOGLE_SHEET_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE")
+    if (
+      !GOOGLE_SHEET_URL ||
+      GOOGLE_SHEET_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE"
+    )
       return;
     fetch(GOOGLE_SHEET_URL, {
       method: "POST",
@@ -268,9 +273,13 @@ function closeLightbox() {
 
   // Show dialog when user scrolls to the footer (not on initial load)
   var hasScrolled = false;
-  window.addEventListener("scroll", function () {
-    hasScrolled = true;
-  }, { once: true });
+  window.addEventListener(
+    "scroll",
+    function () {
+      hasScrolled = true;
+    },
+    { once: true },
+  );
 
   function checkScroll() {
     if (dialogShown) return;
@@ -336,26 +345,16 @@ musicBtn.addEventListener("click", function () {
   isPlaying = !isPlaying;
 });
 
-// ===== WISHES (BOTTOM BAR INPUT) =====
+// ===== WISHES (GOOGLE SHEETS) =====
 (function () {
-  var WISHES_JSON = "wishes.json";
+  // Google Apps Script web app URL for wishes
+  // Deploy a new Apps Script that handles GET (return wishes) and POST (add wish)
+  var WISHES_SHEET_URL =
+    "https://script.google.com/macros/s/AKfycbwW4lrpBLkN_njMnz5B3GJpWqyXihlK6lDFukost5yaWBVxlU1pbNvU4nKDI_bYiFuzfw/exec";
+
   var wishesList = document.getElementById("wishesList");
   var wishInput = document.getElementById("bottomWishInput");
   var wishSendBtn = document.getElementById("bottomWishSend");
-
-  function loadWishes() {
-    fetch(WISHES_JSON)
-      .then(function (res) {
-        if (!res.ok) return [];
-        return res.json();
-      })
-      .then(function (wishes) {
-        renderWishes(wishes);
-      })
-      .catch(function () {
-        renderWishes([]);
-      });
-  }
 
   function timeAgo(dateStr) {
     var now = new Date();
@@ -375,6 +374,11 @@ musicBtn.addEventListener("click", function () {
 
   function renderWishes(wishes) {
     wishesList.innerHTML = "";
+    if (!wishes || !wishes.length) {
+      wishesList.innerHTML =
+        '<p style="text-align:center;color:var(--text-muted);">Hãy là người đầu tiên gửi lời chúc!</p>';
+      return;
+    }
     wishes
       .slice()
       .reverse()
@@ -400,39 +404,55 @@ musicBtn.addEventListener("click", function () {
       });
   }
 
+  function loadWishes() {
+    fetch(WISHES_SHEET_URL, { redirect: "follow" })
+      .then(function (res) {
+        return res.json();
+      })
+      .then(function (data) {
+        renderWishes(data.wishes || []);
+      })
+      .catch(function () {
+        // Fallback: try JSONP approach
+        var script = document.createElement("script");
+        window._wishesCallback = function (data) {
+          renderWishes(data.wishes || []);
+          delete window._wishesCallback;
+        };
+        script.src = WISHES_SHEET_URL + "?callback=_wishesCallback";
+        script.onerror = function () { renderWishes([]); };
+        document.head.appendChild(script);
+      });
+  }
+
   function submitWish() {
     var message = wishInput.value.trim();
     if (!message) return;
 
-    // Get guest name from URL or use default
     var params = new URLSearchParams(window.location.search);
-    var name = params.get("name") || "Khách mời";
+    var guestName = params.get("guestName");
+    var title = params.get("title") || "";
+    var name = guestName
+      ? guestName.replace(/([A-Z])/g, " $1").trim()
+      : "Khách mời";
+    if (title) name = title + " " + name;
 
-    // Add to local list and render immediately
-    fetch(WISHES_JSON)
-      .then(function (res) {
-        if (!res.ok) return [];
-        return res.json();
-      })
-      .then(function (wishes) {
-        wishes.push({ name: name, message: message, time: new Date().toISOString() });
-        renderWishes(wishes);
-        // Also save to localStorage as backup
-        localStorage.setItem("wedding_wishes", JSON.stringify(wishes));
-      })
-      .catch(function () {
-        var wishes = [];
-        try {
-          wishes = JSON.parse(localStorage.getItem("wedding_wishes")) || [];
-        } catch (e) {}
-        wishes.push({ name: name, message: message, time: new Date().toISOString() });
-        localStorage.setItem("wedding_wishes", JSON.stringify(wishes));
-        renderWishes(wishes);
-      });
+    var wish = { name: name, message: message, time: new Date().toISOString() };
+
+    // Send to Google Sheets
+    fetch(WISHES_SHEET_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(wish),
+    }).catch(function () {});
 
     wishInput.value = "";
     // Scroll to wishes section
     document.getElementById("wishes").scrollIntoView({ behavior: "smooth" });
+
+    // Reload wishes after a short delay to allow the sheet to update
+    setTimeout(loadWishes, 1500);
   }
 
   wishSendBtn.addEventListener("click", submitWish);
@@ -440,32 +460,8 @@ musicBtn.addEventListener("click", function () {
     if (e.key === "Enter") submitWish();
   });
 
-  // Load from JSON first, fallback to localStorage
-  fetch(WISHES_JSON)
-    .then(function (res) {
-      if (!res.ok) throw new Error();
-      return res.json();
-    })
-    .then(function (wishes) {
-      // Merge with localStorage wishes
-      var localWishes = [];
-      try {
-        localWishes = JSON.parse(localStorage.getItem("wedding_wishes")) || [];
-      } catch (e) {}
-      // Combine: JSON file wishes + any local-only wishes
-      var allTimes = wishes.map(function (w) { return w.time; });
-      localWishes.forEach(function (lw) {
-        if (allTimes.indexOf(lw.time) === -1) wishes.push(lw);
-      });
-      renderWishes(wishes);
-    })
-    .catch(function () {
-      var wishes = [];
-      try {
-        wishes = JSON.parse(localStorage.getItem("wedding_wishes")) || [];
-      } catch (e) {}
-      renderWishes(wishes);
-    });
+  // Load wishes on page load
+  loadWishes();
 })();
 
 // ===== GIFT SIDEBAR =====
@@ -491,4 +487,3 @@ musicBtn.addEventListener("click", function () {
   giftOverlay.addEventListener("click", closeGift);
   giftClose.addEventListener("click", closeGift);
 })();
-
