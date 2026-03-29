@@ -108,7 +108,7 @@ function initAfterIntro() {
 var prevValues = { days: "", hours: "", minutes: "", seconds: "" };
 
 function updateCountdown() {
-  var weddingDate = new Date("2024-09-30T10:00:00+07:00");
+  var weddingDate = new Date("2026-04-19T15:30:00+07:00");
   var now = new Date();
   var diff = weddingDate - now;
 

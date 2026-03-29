@@ -1923,6 +1923,12 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 24px;
   }
+
+  .venue-card-full {
+    grid-column: 1 / -1;
+    max-width: 400px;
+    margin: 0 auto;
+  }
 }
 
 /* ===== RESPONSIVE — DESKTOP (1024px+) ===== */
