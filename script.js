@@ -58,10 +58,7 @@ function initAfterIntro() {
   var guestName = params.get("guestName") || "";
   var introGuestName = document.getElementById("introGuestName");
   if (title || guestName) {
-    var formattedName = guestName
-      ? guestName.replace(/([A-Z])/g, " $1").trim()
-      : "";
-    introGuestName.textContent = (title ? title + " " : "") + formattedName;
+    introGuestName.textContent = (title ? title + " " : "") + guestName;
   }
 })();
 
@@ -254,21 +251,21 @@ function closeLightbox() {
   var dialogShown = false;
 
   // Personalize from URL params
-  // Usage: index.html?title=Anh&guestName=NguyenVanA
+  // Usage: index.html?title=Anh&guestName=Cuong
   var params = new URLSearchParams(window.location.search);
   var guestName = params.get("guestName");
   var titleParam = params.get("title");
 
   if (guestName) {
-    var formattedName = guestName.replace(/([A-Z])/g, " $1").trim();
-    var titleText = titleParam
-      ? titleParam.charAt(0).toUpperCase() + titleParam.slice(1)
-      : "";
-    var displayName = titleText
-      ? titleText + " " + formattedName
-      : formattedName;
+    var displayName = titleParam
+      ? titleParam + " " + guestName
+      : guestName;
+    var t = (titleParam || "").toLowerCase().trim();
+    var pronoun = "chúng em";
+    if (t === "bạn") pronoun = "chúng mình";
+    else if (t === "bác" || t === "cô" || t === "chú" || t === "dì") pronoun = "chúng con";
     questionEl.textContent =
-      displayName + " chắc chắn tham dự cùng chúng em chứ?";
+      displayName + " chắc chắn tham dự cùng " + pronoun + " chứ?";
   }
 
   // Show dialog when user scrolls to the footer (not on initial load)
@@ -432,9 +429,7 @@ musicBtn.addEventListener("click", function () {
     var params = new URLSearchParams(window.location.search);
     var guestName = params.get("guestName");
     var title = params.get("title") || "";
-    var name = guestName
-      ? guestName.replace(/([A-Z])/g, " $1").trim()
-      : "Khách mời";
+    var name = guestName || "Khách mời";
     if (title) name = title + " " + name;
 
     var wish = { name: name, message: message, time: new Date().toISOString() };
