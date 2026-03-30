@@ -62,6 +62,22 @@ function initAfterIntro() {
   }
 })();
 
+// ===== RENDER TIỆC CƯỚI BY TYPE (groom/bride) =====
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var type = params.get("type") || "bride";
+  var nhaGai = document.getElementById("venueNhaGai");
+  var nhaTrai = document.getElementById("venueNhaTrai");
+
+  if (type === "groom") {
+    nhaGai.style.display = "none";
+    nhaTrai.style.display = "";
+  } else {
+    nhaGai.style.display = "";
+    nhaTrai.style.display = "none";
+  }
+})();
+
 (function () {
   var overlay = document.getElementById("introOverlay");
   var hasVisited = localStorage.getItem("introSeen");
@@ -145,7 +161,7 @@ setInterval(updateCountdown, 1000);
 var galleryShowMore = document.querySelector(".gallery-show-more");
 if (galleryShowMore) {
   galleryShowMore.addEventListener("click", function () {
-    openLightbox(10);
+    openLightbox(4);
   });
 }
 
