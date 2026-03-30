@@ -80,14 +80,6 @@ function initAfterIntro() {
 
 (function () {
   var overlay = document.getElementById("introOverlay");
-  var hasVisited = localStorage.getItem("introSeen");
-
-  if (hasVisited) {
-    // Skip intro on repeat visits
-    overlay.classList.add("hidden");
-    initAfterIntro();
-    return;
-  }
 
   document
     .getElementById("openInvitation")
@@ -273,13 +265,12 @@ function closeLightbox() {
   var titleParam = params.get("title");
 
   if (guestName) {
-    var displayName = titleParam
-      ? titleParam + " " + guestName
-      : guestName;
+    var displayName = titleParam ? titleParam + " " + guestName : guestName;
     var t = (titleParam || "").toLowerCase().trim();
     var pronoun = "chúng em";
     if (t === "bạn") pronoun = "chúng mình";
-    else if (t === "bác" || t === "cô" || t === "chú" || t === "dì") pronoun = "chúng con";
+    else if (t === "bác" || t === "cô" || t === "chú" || t === "dì")
+      pronoun = "chúng con";
     questionEl.textContent =
       displayName + " chắc chắn tham dự cùng " + pronoun + " chứ?";
   }
@@ -433,7 +424,9 @@ musicBtn.addEventListener("click", function () {
           delete window._wishesCallback;
         };
         script.src = WISHES_SHEET_URL + "?callback=_wishesCallback";
-        script.onerror = function () { renderWishes([]); };
+        script.onerror = function () {
+          renderWishes([]);
+        };
         document.head.appendChild(script);
       });
   }
